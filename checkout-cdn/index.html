@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plante Árvores — Guia de Instalação</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --green-50: #f0fdf4;
+      --green-100: #dcfce7;
+      --green-200: #bbf7d0;
+      --green-400: #4ade80;
+      --green-600: #16a34a;
+      --green-700: #15803d;
+      --green-800: #166534;
+      --green-900: #14532d;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --blue-50: #eff6ff;
+      --blue-100: #dbeafe;
+      --blue-600: #2563eb;
+      --blue-800: #1e40af;
+      --amber-50: #fffbeb;
+      --amber-100: #fef3c7;
+      --amber-600: #d97706;
+      --amber-800: #92400e;
+      --font-sans: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--gray-800);
+      background: #fafaf9;
+    }
+
+    a { color: var(--green-700); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      background: var(--gray-100);
+      color: var(--gray-700);
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--gray-200);
+    }
+
+    /* ── Layout ── */
+    .page-wrapper {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 2rem 1.25rem;
+      border-right: 1px solid var(--gray-200);
+      background: #fff;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .sidebar-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--green-700);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sidebar-logo-icon svg { width: 20px; height: 20px; }
+
+    .sidebar-logo-text { line-height: 1.2; }
+    .sidebar-logo-title { font-size: 14px; font-weight: 600; color: var(--gray-900); }
+    .sidebar-logo-sub { font-size: 11px; color: var(--gray-400); }
+
+    .sidebar-nav { list-style: none; }
+
+    .sidebar-nav-item { margin-bottom: 2px; }
+
+    .sidebar-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--gray-600);
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .sidebar-nav-link:hover {
+      background: var(--green-50);
+      color: var(--green-800);
+      text-decoration: none;
+    }
+
+    .sidebar-nav-link.active {
+      background: var(--green-100);
+      color: var(--green-800);
+      font-weight: 500;
+    }
+
+    .sidebar-nav-num {
+      width: 18px;
+      height: 18px;
+      background: var(--gray-100);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--gray-400);
+      flex-shrink: 0;
+    }
+
+    .sidebar-nav-link.active .sidebar-nav-num {
+      background: var(--green-200);
+      color: var(--green-800);
+    }
+
+    .sidebar-version {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--gray-100);
+      font-size: 11px;
+      color: var(--gray-400);
+    }
+
+    .sidebar-version span {
+      display: inline-block;
+      background: var(--green-100);
+      color: var(--green-800);
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    /* ── Main content ── */
+    .main {
+      padding: 3rem 3rem 6rem;
+      max-width: 760px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--green-700) 0%, var(--green-900) 100%);
+      border-radius: var(--radius-xl);
+      padding: 3rem;
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 200px;
+      height: 200px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      right: 60px;
+      width: 150px;
+      height: 150px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 50%;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.9);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.7;
+      max-width: 480px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .hero-stat-num {
+      font-size: 22px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+      margin-top: 2px;
+    }
+
+    /* ── Section ── */
+    .section {
+      margin-bottom: 3.5rem;
+      scroll-margin-top: 2rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--green-100);
+    }
+
+    .section-num {
+      width: 32px;
+      height: 32px;
+      background: var(--green-700);
+      color: #fff;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--gray-900);
+    }
+
+    /* ── About cards ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .about-card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .about-card:hover {
+      border-color: var(--green-300, #86efac);
+      box-shadow: 0 4px 16px rgba(21,128,61,0.08);
+    }
+
+    .about-card-emoji {
+      font-size: 24px;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .about-card h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-800);
+      margin-bottom: 6px;
+    }
+
+    .about-card p {
+      font-size: 13px;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+
+    /* ── Steps ── */
+    .steps { display: flex; flex-direction: column; gap: 8px; }
+
+    .step {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .step.open { border-color: var(--green-200); }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+    }
+
+    .step-header:hover { background: var(--gray-50); }
+    .step.open .step-header { background: var(--green-50); }
+
+    .step-num {
+      width: 26px;
+      height: 26px;
+      background: var(--gray-100);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-500);
+      flex-shrink: 0;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .step.open .step-num {
+      background: var(--green-200);
+      color: var(--green-800);
+    }
+
+    .step-label {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-800);
+    }
+
+    .step-tag {
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--gray-100);
+      color: var(--gray-500);
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-family: var(--font-mono);
+    }
+
+    .step.open .step-tag {
+      background: var(--green-100);
+      color: var(--green-800);
+    }
+
+    .step-chevron {
+      width: 16px;
+      height: 16px;
+      color: var(--gray-400);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .step.open .step-chevron { transform: rotate(180deg); }
+
+    .step-body {
+      padding: 0 18px 18px 56px;
+      display: none;
+    }
+
+    .step.open .step-body { display: block; }
+
+    .step-body p {
+      font-size: 13px;
+      color: var(--gray-500);
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    /* ── Code blocks ── */
+    .code-wrap { margin: 10px 0; }
+
+    .code-label {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--gray-400);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .code-label::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gray-300);
+    }
+
+    .code-block {
+      background: #1e1e2e;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .code-block pre {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: #cdd6f4;
+      line-height: 1.65;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .code-block .kw { color: #cba6f7; }
+    .code-block .str { color: #a6e3a1; }
+    .code-block .attr { color: #89b4fa; }
+    .code-block .cmt { color: #6c7086; font-style: italic; }
+
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 5px;
+      color: #6c7086;
+      font-size: 11px;
+      font-family: var(--font-sans);
+      padding: 3px 10px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255,255,255,0.15);
+      color: #cdd6f4;
+    }
+
+    .copy-btn.copied {
+      background: rgba(166,227,161,0.15);
+      color: #a6e3a1;
+      border-color: rgba(166,227,161,0.2);
+    }
+
+    /* ── Callouts ── */
+    .callout {
+      display: flex;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 10px 0;
+    }
+
+    .callout-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+    .callout-info { background: var(--blue-50); border: 1px solid var(--blue-100); color: var(--blue-800); }
+    .callout-warn { background: var(--amber-50); border: 1px solid var(--amber-100); color: var(--amber-800); }
+    .callout-success { background: var(--green-50); border: 1px solid var(--green-100); color: var(--green-800); }
+
+    /* ── Config flow ── */
+    .config-flow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+
+    .config-step {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-700);
+    }
+
+    .config-step.highlight {
+      background: var(--green-50);
+      border-color: var(--green-200);
+      color: var(--green-800);
+    }
+
+    .config-arrow { color: var(--gray-300); font-size: 16px; }
+
+    /* ── Tech grid ── */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .tech-card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+    }
+
+    .tech-card h4 {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gray-400);
+      margin-bottom: 12px;
+    }
+
+    .tech-table { width: 100%; border-collapse: collapse; }
+
+    .tech-table tr { border-bottom: 1px solid var(--gray-100); }
+    .tech-table tr:last-child { border-bottom: none; }
+
+    .tech-table td {
+      padding: 6px 0;
+      font-size: 12.5px;
+      vertical-align: top;
+    }
+
+    .tech-table td:first-child {
+      color: var(--gray-400);
+      width: 45%;
+      padding-right: 8px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+    }
+
+    .tech-table td:last-child { color: var(--gray-700); }
+
+    /* ── Endpoints ── */
+    .endpoint-list { display: flex; flex-direction: column; gap: 5px; }
+
+    .endpoint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .method {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      min-width: 38px;
+      text-align: center;
+    }
+
+    .method-get { background: var(--green-100); color: var(--green-800); }
+    .method-post { background: var(--blue-100); color: var(--blue-800); }
+    .method-put { background: var(--amber-100); color: var(--amber-800); }
+
+    .endpoint-path {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--gray-600);
+    }
+
+    /* ── States ── */
+    .state-list { display: flex; flex-direction: column; gap: 4px; }
+
+    .state-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+    }
+
+    .state-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .state-name {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--gray-600);
+      min-width: 180px;
+    }
+
+    .state-desc { color: var(--gray-500); font-size: 12px; }
+
+    /* ── Checklist ── */
+    .checklist { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+
+    .check-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--green-400, #4ade80);
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--green-50);
+    }
+
+    .check-box svg { width: 10px; height: 10px; }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-left { font-size: 12px; color: var(--gray-400); line-height: 1.6; }
+    .footer-left strong { color: var(--gray-600); font-weight: 500; }
+
+    .footer-badge {
+      background: var(--green-100);
+      color: var(--green-800);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .page-wrapper { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main { padding: 2rem 1.25rem 4rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .tech-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 24px; }
+      .hero-stats { gap: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">
+        <svg viewBox="0 0 20 20" fill="none">
+          <path d="M10 2C10 2 4 6 4 12C4 15.3 6.7 18 10 18C13.3 18 16 15.3 16 12C16 6 10 2 10 2Z" fill="white"/>
+          <path d="M10 18V20" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="sidebar-logo-text">
+        <div class="sidebar-logo-title">Plante Árvores</div>
+        <div class="sidebar-logo-sub">Guia de Instalação</div>
+      </div>
+    </div>
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+        <a href="#about" class="sidebar-nav-link active">
+          <span class="sidebar-nav-num">1</span>
+          O que é o app
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="#install" class="sidebar-nav-link">
+          <span class="sidebar-nav-num">2</span>
+          Instalação na loja
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="#config" class="sidebar-nav-link">
+          <span class="sidebar-nav-num">3</span>
+          Configuração no admin
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="#checkout" class="sidebar-nav-link">
+          <span class="sidebar-nav-num">4</span>
+          Instalação no checkout
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="#validate" class="sidebar-nav-link">
+          <span class="sidebar-nav-num">5</span>
+          Verificação
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="#tech" class="sidebar-nav-link">
+          <span class="sidebar-nav-num">6</span>
+          Informações técnicas
+        </a>
+      </li>
+    </ul>
+    <div class="sidebar-version">
+      Versão atual &nbsp;<span>v1.0.0</span>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-badge">
+        <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="rgba(255,255,255,0.6)"/></svg>
+        VTEX IO App &nbsp;·&nbsp; performaitpartnerbr.donation-app
+      </div>
+      <h1>Plante Árvores</h1>
+      <p>Integre doações ambientais à jornada de compra. Cada pedido pode contribuir para o plantio de árvores em agroflorestas regenerativas brasileiras.</p>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">7</div>
+          <div class="hero-stat-label">valores de doação</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">0</div>
+          <div class="hero-stat-label">config manual</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">3</div>
+          <div class="hero-stat-label">sprints entregues</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção 1 — O que é -->
+    <section class="section" id="about">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div class="section-title">O que é o Plante Árvores</div>
+      </div>
+      <div class="about-grid">
+        <div class="about-card">
+          <span class="about-card-emoji">🌱</span>
+          <h4>Doação no carrinho</h4>
+          <p>Checkbox opcional no minicart e no checkout legado. O cliente decide se deseja contribuir com um valor fixo por pedido.</p>
+        </div>
+        <div class="about-card">
+          <span class="about-card-emoji">⚙️</span>
+          <h4>Provisionamento automático</h4>
+          <p>O app cria toda a estrutura de produto via APIs VTEX — categoria, marca, SKU, preço e estoque. Nenhuma ação manual no catálogo.</p>
+        </div>
+        <div class="about-card">
+          <span class="about-card-emoji">📊</span>
+          <h4>Dashboard de doações</h4>
+          <p>Painel no admin com histórico de pedidos que incluíram doação, valores arrecadados e status em tempo real.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 2 — Instalação -->
+    <section class="section" id="install">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div class="section-title">Instalação na loja</div>
+      </div>
+      <div class="steps">
+
+        <div class="step open">
+          <div class="step-header" onclick="toggleStep(this)">
+            <div class="step-num">1</div>
+            <div class="step-label">Instalar o app via VTEX CLI</div>
+            <div class="step-tag">CLI</div>
+            <svg class="step-chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="step-body">
+            <div class="code-wrap">
+              <div class="code-label">terminal</div>
+              <div class="code-block">
+                <pre><span class="kw">vtex</span> install <span class="str">performaitpartnerbr.donation-app@1.0.0</span></pre>
+                <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+              </div>
+            </div>
+            <div class="callout callout-info">
+              <span class="callout-icon">ℹ️</span>
+              <span>O app requer os builders <code>node 7.x</code>, <code>react 3.x</code>, <code>store 0.x</code> e <code>admin 0.x</code> no <code>manifest.json</code> do tema.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header" onclick="toggleStep(this)">
+            <div class="step-num">2</div>
+            <div class="step-label">Adicionar ao manifest do store-theme</div>
+            <div class="step-tag">manifest.json</div>
+            <svg class="step-chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="step-body">
+            <p>Adicione o app como <code>peerDependency</code> no <code>manifest.json</code> do seu store-theme:</p>
+            <div class="code-wrap">
+              <div class="code-label">store-theme/manifest.json</div>
+              <div class="code-block">
+                <pre><span class="attr">"peerDependencies"</span>: {
+  <span class="str">"performaitpartnerbr.donation-app"</span>: <span class="str">"1.x"</span>
+}</pre>
+                <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header" onclick="toggleStep(this)">
+            <div class="step-num">3</div>
+            <div class="step-label">Adicionar o bloco no template do minicart</div>
+            <div class="step-tag">blocks.jsonc</div>
+            <svg class="step-chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="step-body">
+            <p>Adicione o bloco <code>donation-minicart</code> dentro do template do minicart em <code>store/blocks/minicart.jsonc</code>:</p>
+            <div class="code-wrap">
+              <div class="code-label">store/blocks/minicart.jsonc</div>
+              <div class="code-block">
+                <pre><span class="attr">"flex-layout.row#donation"</span>: {
+  <span class="attr">"children"</span>: [
+    <span class="str">"performaitpartnerbr.donation-app:donation-minicart"</span>
+  ]
+}</pre>
+                <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+              </div>
+            </div>
+            <div class="callout callout-warn">
+              <span class="callout-icon">⚠️</span>
+              <span>O bloco só é renderizado quando <code>appStatus === 'ACTIVE'</code>. Antes de ativar o app, nada é exibido no minicart.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Seção 3 — Config admin -->
+    <section class="section" id="config">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div class="section-title">Configuração no admin</div>
+      </div>
+      <p style="font-size:14px;color:#6b7280;margin-bottom:1.25rem;line-height:1.7;">
+        Após instalar o app, acesse <strong style="color:#374151;">Admin → Doações → Cadastrar Produto</strong> e siga o fluxo abaixo:
+      </p>
+      <div class="config-flow">
+        <div class="config-step">1. Ver onboarding</div>
+        <div class="config-arrow">→</div>
+        <div class="config-step">2. Selecionar valor</div>
+        <div class="config-arrow">→</div>
+        <div class="config-step highlight">3. Criar produto</div>
+        <div class="config-arrow">→</div>
+        <div class="config-step">4. Ativar o app</div>
+      </div>
+      <div class="callout callout-success" style="margin-top:1rem;">
+        <span class="callout-icon">✅</span>
+        <span>O app cria automaticamente categoria, marca, produto, SKU, imagem, preço e estoque via APIs VTEX. Nenhuma ação manual no catálogo é necessária.</span>
+      </div>
+      <div class="callout callout-warn" style="margin-top:8px;">
+        <span class="callout-icon">⚠️</span>
+        <span>O valor da doação <strong>não pode ser alterado</strong> após a criação do produto nesta versão. Escolha com atenção antes de confirmar.</span>
+      </div>
+      <div class="callout callout-info" style="margin-top:8px;">
+        <span class="callout-icon">ℹ️</span>
+        <span>Para lojas marketplace: ative a opção <strong>Notify Subaccounts</strong> em <code>/admin/apps/vtex.orders-broadcast/setup</code> para capturar pedidos de subcontas.</span>
+      </div>
+    </section>
+
+    <!-- Seção 4 — Checkout -->
+    <section class="section" id="checkout">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <div class="section-title">Instalação no checkout</div>
+      </div>
+      <p style="font-size:14px;color:#6b7280;margin-bottom:1.25rem;line-height:1.7;">
+        O checkout legado da VTEX requer a instalação manual do script CDN. Escolha uma das opções:
+      </p>
+      <div class="steps">
+
+        <div class="step open">
+          <div class="step-header" onclick="toggleStep(this)">
+            <div class="step-num">A</div>
+            <div class="step-label">Via Google Tag Manager (recomendado)</div>
+            <div class="step-tag">GTM</div>
+            <svg class="step-chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="step-body">
+            <p>Crie uma tag do tipo <strong>Custom HTML</strong> com gatilho na página de checkout (<code>/checkout</code>):</p>
+            <div class="code-wrap">
+              <div class="code-label">GTM → Nova tag → Custom HTML</div>
+              <div class="code-block">
+                <pre><span class="kw">&lt;script</span>
+  <span class="attr">src</span>=<span class="str">"https://jefersonduartepit.github.io/donation-checkout-cdn/checkout-cdn/donation-checkout.js"</span>
+  <span class="attr">data-sku-id</span>=<span class="str">"SEU_SKU_ID"</span><span class="kw">&gt;
+&lt;/script&gt;</span></pre>
+                <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+              </div>
+            </div>
+            <div class="callout callout-info">
+              <span class="callout-icon">ℹ️</span>
+              <span>Substitua <code>SEU_SKU_ID</code> pelo ID do SKU gerado após o provisionamento. Encontre em <strong>Admin → Doações → Ver SKU no catálogo</strong>.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header" onclick="toggleStep(this)">
+            <div class="step-num">B</div>
+            <div class="step-label">Via checkout6-custom.js</div>
+            <div class="step-tag">Portal Admin</div>
+            <svg class="step-chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="step-body">
+            <p>Acesse <code>/admin/portal/#/sites/default/code/files/checkout6-custom.js</code> e adicione ao <strong>final</strong> do arquivo:</p>
+            <div class="code-wrap">
+              <div class="code-label">checkout6-custom.js</div>
+              <div class="code-block">
+                <pre><span class="cmt">// === Plante Árvores — Donation App ===</span>
+<span class="kw">var</span> s = document.createElement(<span class="str">'script'</span>)
+s.src = <span class="str">'https://jefersonduartepit.github.io/donation-checkout-cdn/checkout-cdn/donation-checkout.js'</span>
+s.setAttribute(<span class="str">'data-sku-id'</span>, <span class="str">'SEU_SKU_ID'</span>)
+document.head.appendChild(s)
+<span class="cmt">// === fim Donation App ===</span></pre>
+                <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Seção 5 — Verificação -->
+    <section class="section" id="validate">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <div class="section-title">Verificação</div>
+      </div>
+      <p style="font-size:14px;color:#6b7280;margin-bottom:1.25rem;">Confirme que tudo está funcionando corretamente:</p>
+      <ul class="checklist">
+        <li>
+          <div class="check-box"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="#16a34a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          Admin exibe "Produto criado com sucesso!" após o provisionamento
+        </li>
+        <li>
+          <div class="check-box"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="#16a34a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          Toggle de ativação habilitado e responsivo
+        </li>
+        <li>
+          <div class="check-box"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="#16a34a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          Checkbox de doação aparece no minicart do storefront
+        </li>
+        <li>
+          <div class="check-box"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="#16a34a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          Checkbox aparece antes do botão "Finalizar pedido" no checkout
+        </li>
+        <li>
+          <div class="check-box"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="#16a34a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          Estado do checkbox sincronizado com o orderForm ao recarregar
+        </li>
+        <li>
+          <div class="check-box"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="#16a34a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          Pedido com doação aparece no Dashboard de Vendas após finalização
+        </li>
+        <li>
+          <div class="check-box"><svg viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="#16a34a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          Para lojas marketplace: "Notify Subaccounts" ativado no orders-broadcast
+        </li>
+      </ul>
+    </section>
+
+    <!-- Seção 6 — Técnico -->
+    <section class="section" id="tech">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <div class="section-title">Informações técnicas</div>
+      </div>
+      <div class="tech-grid">
+
+        <div class="tech-card">
+          <h4>Stack</h4>
+          <table class="tech-table">
+            <tr><td>Plataforma</td><td>VTEX IO</td></tr>
+            <tr><td>Backend</td><td>Node.js 7.x</td></tr>
+            <tr><td>Frontend</td><td>React 3.x</td></tr>
+            <tr><td>Config</td><td>VBase</td></tr>
+            <tr><td>Pedidos</td><td>Master Data v2</td></tr>
+            <tr><td>Eventos</td><td>vtex.orders-broadcast</td></tr>
+            <tr><td>Checkout</td><td>JS ES5 / CDN</td></tr>
+          </table>
+        </div>
+
+        <div class="tech-card">
+          <h4>Endpoints</h4>
+          <div class="endpoint-list">
+            <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/_v/donation/getsettings</span></div>
+            <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/_v/donation/provision</span></div>
+            <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/_v/donation/settings</span></div>
+            <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/_v/donation/inventory</span></div>
+            <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/_v/donation/price</span></div>
+            <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/_v/donation/orders</span></div>
+            <div class="endpoint"><span class="method method-put">PUT</span><span class="endpoint-path">/_v/donation/reset</span></div>
+          </div>
+        </div>
+
+        <div class="tech-card">
+          <h4>Estados do app</h4>
+          <div class="state-list">
+            <div class="state-item">
+              <div class="state-dot" style="background:#9ca3af;"></div>
+              <div class="state-name">NOT_PROVISIONED</div>
+              <div class="state-desc">Aguardando criação</div>
+            </div>
+            <div class="state-item">
+              <div class="state-dot" style="background:#60a5fa;"></div>
+              <div class="state-name">PROVISIONING</div>
+              <div class="state-desc">Em criação</div>
+            </div>
+            <div class="state-item">
+              <div class="state-dot" style="background:#fbbf24;"></div>
+              <div class="state-name">WAITING_INVENTORY</div>
+              <div class="state-desc">Sem warehouse</div>
+            </div>
+            <div class="state-item">
+              <div class="state-dot" style="background:#34d399;"></div>
+              <div class="state-name">READY</div>
+              <div class="state-desc">Pronto para ativar</div>
+            </div>
+            <div class="state-item">
+              <div class="state-dot" style="background:#16a34a;"></div>
+              <div class="state-name">ACTIVE</div>
+              <div class="state-desc">Checkbox visível</div>
+            </div>
+            <div class="state-item">
+              <div class="state-dot" style="background:#d1d5db;"></div>
+              <div class="state-name">INACTIVE</div>
+              <div class="state-desc">Checkbox oculto</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tech-card">
+          <h4>Políticas necessárias</h4>
+          <table class="tech-table">
+            <tr><td>vbase-read-write</td><td>Persistência de estado</td></tr>
+            <tr><td>OMSViewer</td><td>Leitura de pedidos</td></tr>
+            <tr><td>outbound-access</td><td>Catalog, Pricing, Logistics APIs</td></tr>
+            <tr><td>graphql-query</td><td>Consultas internas</td></tr>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-left">
+        <strong>Plante Árvores</strong> · performaitpartnerbr<br>
+        Desenvolvido para Agroforestree · 2026
+      </div>
+      <div class="footer-badge">v1.0.0</div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  function toggleStep(header) {
+    var step = header.parentElement;
+    step.classList.toggle('open');
+  }
+
+  function copyCode(btn) {
+    var pre = btn.previousElementSibling;
+    var text = pre.textContent;
+    navigator.clipboard.writeText(text).then(function() {
+      btn.textContent = '✓ copiado';
+      btn.classList.add('copied');
+      setTimeout(function() {
+        btn.textContent = 'copiar';
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(function() {
+      btn.textContent = 'erro';
+    });
+  }
+
+  // Highlight nav on scroll
+  var sections = document.querySelectorAll('.section');
+  var navLinks = document.querySelectorAll('.sidebar-nav-link');
+
+  function updateNav() {
+    var scrollY = window.scrollY;
+    sections.forEach(function(section) {
+      var top = section.offsetTop - 60;
+      var bottom = top + section.offsetHeight;
+      if (scrollY >= top && scrollY < bottom) {
+        navLinks.forEach(function(link) { link.classList.remove('active'); });
+        var id = section.getAttribute('id');
+        var activeLink = document.querySelector('.sidebar-nav-link[href="#' + id + '"]');
+        if (activeLink) activeLink.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateNav);
+</script>
+
+</body>
+</html>
