@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relatório Executivo — Aplicativo de Doação Agroforestree</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f4f8f2;
+      color: #2d3748;
+      min-height: 100vh;
+    }
+
+    .page {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 40px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── Header ─────────────────────────────────────── */
+
+    .report-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 28px;
+      border-radius: 20px;
+      background: #fff;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .report-header__brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .report-header__icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7bb820 0%, #254336 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .report-header__name {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f3328;
+    }
+
+    .report-header__name span {
+      color: #7bb820;
+    }
+
+    .report-header__subtitle {
+      font-size: 13px;
+      color: #5d705d;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .report-header__meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .report-header__date {
+      font-size: 13px;
+      color: #5f7463;
+      font-weight: 600;
+    }
+
+    .report-header__version {
+      font-size: 12px;
+      color: #9ba5b4;
+    }
+
+    /* ── Stat cards ──────────────────────────────────── */
+
+    .stats-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      flex: 1;
+      min-width: 150px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 20px 24px;
+      border-radius: 20px;
+      background: #fff;
+    }
+
+    .stat-card__icon { font-size: 26px; line-height: 1; }
+    .stat-card__value { font-size: 42px; font-weight: 700; line-height: 1; }
+    .stat-card__label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    .stat-card--total  { border-top: 4px solid #254336; }
+    .stat-card--total  .stat-card__value { color: #1f3328; }
+    .stat-card--total  .stat-card__label { color: #5f7463; }
+
+    .stat-card--pass   { border-top: 4px solid #7bb820; }
+    .stat-card--pass   .stat-card__value { color: #2e9d52; }
+    .stat-card--pass   .stat-card__label { color: #5f7463; }
+
+    .stat-card--fail   { border-top: 4px solid #9ba5b4; }
+    .stat-card--fail   .stat-card__value { color: #9ba5b4; }
+    .stat-card--fail   .stat-card__label { color: #9ba5b4; }
+
+    .stat-card--skip   { border-top: 4px solid #f6c90e; }
+    .stat-card--skip   .stat-card__value { color: #5a4500; }
+    .stat-card--skip   .stat-card__label { color: #7a6548; }
+
+    /* ── Section card ────────────────────────────────── */
+
+    .section-card {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 28px 32px;
+      border-radius: 24px;
+      background: #fff;
+    }
+
+    .section-card__header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-card__emoji { font-size: 22px; }
+
+    .section-card__title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1f3328;
+    }
+
+    .section-card__text {
+      font-size: 15px;
+      color: #4a5568;
+      line-height: 1.7;
+    }
+
+    /* ── Checklist ───────────────────────────────────── */
+
+    .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .checklist__item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: #f7fbf5;
+      font-size: 14px;
+      color: #2d3748;
+      line-height: 1.55;
+    }
+
+    .checklist__dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #7bb820;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .checklist__item strong { color: #254336; }
+
+    /* ── Results table ───────────────────────────────── */
+
+    .table-wrap {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(61, 62, 64, 0.07);
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .results-table thead { background: #f4f8f2; }
+
+    .results-table th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      color: #5f7463;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1.5px solid #e6f1e3;
+    }
+
+    .results-table tbody tr {
+      border-bottom: 1px solid #f0f5ee;
+      transition: background 0.1s;
+    }
+
+    .results-table tbody tr:hover { background: #fafcf8; }
+    .results-table tbody tr:last-child { border-bottom: none; }
+
+    .results-table td {
+      padding: 13px 16px;
+      vertical-align: top;
+      color: #2d3748;
+    }
+
+    .tc-badge {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      background: #f4f8f2;
+      color: #254336;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .status-badge--pass { background: #e8f7eb; color: #246b3d; }
+    .status-badge--skip { background: #fff8e1; color: #5a4500; }
+    .status-badge--fail { background: #fff0f0; color: #9b2c2c; }
+
+    .td-description { font-weight: 600; color: #1f3328; }
+    .td-notes { font-size: 13px; color: #4a5568; line-height: 1.5; }
+
+    /* ── App State grid ──────────────────────────────── */
+
+    .appstate-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+      gap: 12px;
+    }
+
+    .appstate-item {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 14px 16px;
+      border-radius: 14px;
+    }
+
+    .appstate-item--ok      { background: #eef7e6; border-left: 3px solid #7bb820; }
+    .appstate-item--pending { background: #f7fbf5; border-left: 3px solid #9ba5b4; }
+    .appstate-item--warning { background: #fff8e1; border-left: 3px solid #f6c90e; }
+
+    .appstate-item__key {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #5f7463;
+    }
+
+    .appstate-item__value { font-size: 15px; font-weight: 700; }
+
+    .appstate-item--ok      .appstate-item__value { color: #254336; }
+    .appstate-item--pending .appstate-item__value { color: #9ba5b4; }
+    .appstate-item--warning .appstate-item__value { color: #5a4500; }
+
+    /* ── Bug / Fix cards ─────────────────────────────── */
+
+    .alert-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px 24px;
+      border-radius: 16px;
+      background: #fffbeb;
+      border-left: 4px solid #f6c90e;
+    }
+
+    .alert-card__title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #5a4500;
+    }
+
+    .alert-card__text {
+      font-size: 14px;
+      color: #744210;
+      line-height: 1.6;
+    }
+
+    .fix-card {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 18px 20px;
+      border-radius: 14px;
+      background: #eef7e6;
+      border-left: 4px solid #7bb820;
+    }
+
+    .fix-card__title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #254336;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .fix-card__text {
+      font-size: 14px;
+      color: #31523a;
+      line-height: 1.6;
+    }
+
+    /* ── Next steps table ────────────────────────────── */
+
+    .next-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .next-table thead { background: #f4f8f2; }
+
+    .next-table th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      color: #5f7463;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1.5px solid #e6f1e3;
+    }
+
+    .next-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #f0f5ee;
+      color: #2d3748;
+      vertical-align: middle;
+    }
+
+    .next-table tbody tr:last-child td { border-bottom: none; }
+    .next-table tbody tr:hover { background: #fafcf8; }
+
+    .phase-badge {
+      font-family: 'Courier New', monospace;
+      font-weight: 700;
+      font-size: 12px;
+      background: #eef4fa;
+      color: #24415a;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .count-bubble {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #fff8e1;
+      color: #5a4500;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* ── Footer ──────────────────────────────────────── */
+
+    .report-footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 12px;
+      color: #9ba5b4;
+    }
+
+    /* ── Responsive ──────────────────────────────────── */
+
+    @media (max-width: 720px) {
+      .page { padding: 20px 16px; }
+      .report-header { flex-direction: column; align-items: flex-start; }
+      .report-header__meta { align-items: flex-start; }
+      .stats-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Header ──────────────────────────────────────── -->
+  <header class="report-header">
+    <div class="report-header__brand">
+      <div class="report-header__icon">🌳</div>
+      <div>
+        <div class="report-header__name">
+          Relatório Executivo &mdash; <span>Agroforestree</span>
+        </div>
+        <div class="report-header__subtitle">Aplicativo de Doação · Rodada de Validação</div>
+      </div>
+    </div>
+    <div class="report-header__meta">
+      <div class="report-header__date">📅 14 de abril de 2026</div>
+      <div class="report-header__version">Versão do sistema: refIdVersion 1</div>
+    </div>
+  </header>
+
+  <!-- ── Stat cards ──────────────────────────────────── -->
+  <div class="stats-row">
+    <div class="stat-card stat-card--total">
+      <div class="stat-card__icon">🧪</div>
+      <div class="stat-card__value">28</div>
+      <div class="stat-card__label">Casos executados</div>
+    </div>
+    <div class="stat-card stat-card--pass">
+      <div class="stat-card__icon">✅</div>
+      <div class="stat-card__value">27</div>
+      <div class="stat-card__label">Aprovados</div>
+    </div>
+    <div class="stat-card stat-card--fail">
+      <div class="stat-card__icon">❌</div>
+      <div class="stat-card__value">0</div>
+      <div class="stat-card__label">Reprovados</div>
+    </div>
+    <div class="stat-card stat-card--skip">
+      <div class="stat-card__icon">⏭</div>
+      <div class="stat-card__value">1</div>
+      <div class="stat-card__label">Pulados</div>
+    </div>
+  </div>
+
+  <!-- ── 1. Resumo Executivo ─────────────────────────── -->
+  <div class="section-card">
+    <div class="section-card__header">
+      <span class="section-card__emoji">📋</span>
+      <h2 class="section-card__title">1. Resumo Executivo</h2>
+    </div>
+    <p class="section-card__text">
+      Esta rodada de testes validou o fluxo completo de provisionamento <strong>e a experiência de checkout</strong> do aplicativo de doação: leitura e reinicialização do estado do sistema, criação do catálogo de produtos, mecanismos de proteção contra operações fora de ordem, configuração de imagem e preço do SKU, provisionamento de estoque nos warehouses disponíveis — concluindo com a transição para o estado <strong>READY</strong> — e por fim a <strong>validação do componente DonationMinicart</strong> no carrinho da loja (FASE-06, appStatus=ACTIVE). Dos 28 casos de teste executados, <strong>27 foram aprovados</strong> e <strong>1 foi intencionalmente pulado</strong> por não ser reproduzível no ambiente de testes — nenhum caso foi reprovado. Durante a sessão foram identificados dois achados relevantes: um defeito corrigido (TC-05.1) e um comportamento sem proteção de idempotência observado na API de configuração (TC-03.6).
+    </p>
+  </div>
+
+  <!-- ── 2. O que foi testado ────────────────────────── -->
+  <div class="section-card">
+    <div class="section-card__header">
+      <span class="section-card__emoji">🔍</span>
+      <h2 class="section-card__title">2. O que foi testado</h2>
+    </div>
+    <ul class="checklist">
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Consulta do estado do sistema:</strong> o sistema consegue informar, a qualquer momento, em qual etapa de configuração se encontra.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Reinicialização do sistema:</strong> o sistema restaura o estado padrão corretamente quando acionado pelo administrador.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Criação do catálogo:</strong> o sistema cria adequadamente o produto e o item (SKU) de doação no catálogo da loja, registrando seus identificadores para uso nas etapas seguintes.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Proteção contra execução fora de ordem:</strong> o sistema recusa e notifica o administrador quando uma etapa é acionada antes que seus pré-requisitos sejam atendidos (ex: tentar configurar estoque antes de criar o catálogo).</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Proteção contra reprocessamento desnecessário:</strong> o sistema não recria o catálogo se ele já houver sido criado, evitando duplicações de produto na loja.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Validação de pré-requisitos de imagem:</strong> o sistema bloqueia o provisionamento de estoque quando a imagem do produto ainda não foi configurada.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Reaproveitamento de cadastros existentes:</strong> ao executar a criação do catálogo com produto e SKU já presentes na loja, o sistema reconhece os registros existentes e os reutiliza — sem criar itens duplicados.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Validação de valores de doação:</strong> o sistema recusa valores de doação fora da lista de opções autorizadas (R$ 1, 2, 3, 5, 6, 10, 15), independentemente do formato enviado (número inválido, zero, ou texto).</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Configuração de imagem e preço do SKU:</strong> o sistema configura a imagem e o preço do item de doação em paralelo com sucesso, liberando a etapa seguinte de provisionamento de estoque.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Comportamento de reconfiguração:</strong> o sistema aceita uma segunda chamada de configuração para o mesmo SKU já configurado, atualizando o preço sem rejeitar a operação.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Listagem de warehouses disponíveis:</strong> o sistema retorna a lista de depósitos de estoque disponíveis no ambiente, com identificadores e nomes.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Validação do payload de warehouses:</strong> o sistema rejeita tentativas de provisionamento de estoque com lista vazia, campo ausente ou valor em formato incorreto (string em vez de array).</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Provisionamento de estoque nos warehouses:</strong> o sistema configura estoque infinito nos depósitos selecionados e avança para o estado <strong>READY</strong>, registrando os identificadores dos warehouses utilizados.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Proteção contra reprovisionamento:</strong> o sistema rejeita uma segunda tentativa de provisionamento de estoque com HTTP 409, mantendo o estado READY intacto.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Ativação do aplicativo no checkout:</strong> o aplicativo de doação foi habilitado pelo operador para o estado ACTIVE, tornando o componente visível no minicart.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Componente de doação no minicart:</strong> o DonationMinicart renderizou corretamente na gaveta do carrinho, exibindo o checkbox desmarcado e o rótulo de doação — sem erros de console.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Adição do produto de doação:</strong> ao marcar o checkbox, o SKU 115 foi adicionado ao orderForm com quantity=1, conforme esperado.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Remoção do produto de doação:</strong> ao desmarcar o checkbox, o SKU 115 foi removido do orderForm — sem deixar rastros no carrinho.</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__dot">✓</span>
+        <span><strong>Resiliência com carrinho vazio:</strong> ao esvaziar o carrinho completamente, o componente não gerou nenhum erro JavaScript — comportamento esperado de plataforma VTEX.</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ── 3. Resultados por caso de teste ────────────── -->
+  <div class="section-card">
+    <div class="section-card__header">
+      <span class="section-card__emoji">📊</span>
+      <h2 class="section-card__title">3. Resultados por caso de teste</h2>
+    </div>
+    <div class="table-wrap">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Caso</th>
+            <th>Descrição em negócio</th>
+            <th>Resultado</th>
+            <th>Observações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tc-badge">TC-01.1</span></td>
+            <td class="td-description">Leitura do estado atual do sistema</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Estado retornado corretamente: sistema aguardando primeiro provisionamento.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-01.2</span></td>
+            <td class="td-description">Reinicialização do sistema pelo administrador</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Estado restaurado ao padrão em 438 ms.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-01.3</span></td>
+            <td class="td-description">Confirmação do estado após reinicialização</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Estado padrão persistido corretamente após a operação de reset.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-02.1</span></td>
+            <td class="td-description">Tentativa de provisionar estoque sem catálogo criado</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Sistema bloqueou a operação e informou que o catálogo precisa ser criado primeiro.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-02.2</span></td>
+            <td class="td-description">Tentativa de configurar o produto sem catálogo criado</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Sistema bloqueou a operação e informou que o catálogo precisa ser criado primeiro.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-02.3</span></td>
+            <td class="td-description">Criação do catálogo a partir do estado inicial</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Produto (ID 117) e SKU (ID 115) criados com sucesso em 1.992 ms. Estado avançou para "Catálogo Criado".</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-02.4</span></td>
+            <td class="td-description">Tentativa de recriar o catálogo já existente</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Sistema bloqueou a operação e garantiu que os dados existentes não foram alterados.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-02.5</span></td>
+            <td class="td-description">Tentativa de provisionar estoque sem imagem do produto</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Sistema bloqueou a operação e informou que a imagem do SKU é obrigatória antes de configurar o estoque.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-05.1</span></td>
+            <td class="td-description">Reexecução do provisionamento de catálogo com produto já existente na loja</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Sistema reconheceu os registros existentes (produto 117 e SKU 115) e os reutilizou sem criar duplicatas. Executado após correção de defeito (ver seção 5).</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-05.2</span></td>
+            <td class="td-description">Comportamento do sistema sob acesso simultâneo (condição de corrida)</td>
+            <td><span class="status-badge status-badge--skip">⏭ Pulado</span></td>
+            <td class="td-notes">Cenário não reproduzível no ambiente de testes. A lógica de proteção existe no código, mas exige simulação de duas operações idênticas em paralelo para testá-la.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-03.1</span></td>
+            <td class="td-description">Tentativa de configurar o produto com valor de doação inválido</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Sistema recusou o valor R$ 7 e listou os valores permitidos: R$ 1, 2, 3, 5, 6, 10, 15.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-03.2</span></td>
+            <td class="td-description">Tentativa de configurar o produto sem informar o valor de doação</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Sistema recusou a operação por ausência de preço no corpo da requisição.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-03.3</span></td>
+            <td class="td-description">Tentativa de configurar o produto com valor de doação zero</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Sistema recusou o valor zero como inválido.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-03.4</span></td>
+            <td class="td-description">Tentativa de configurar o produto com valor em formato incorreto (texto)</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Sistema recusou o valor &ldquo;3&rdquo; enviado como texto em vez de número.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-03.5</span></td>
+            <td class="td-description">Configuração de imagem e preço do SKU de doação</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Imagem e preço configurados com sucesso em 1.859&nbsp;ms via chamadas paralelas. skuImageUploaded=true, priceSet=true, price=3.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-03.6</span></td>
+            <td class="td-description">Reconfiguração do produto já configurado com novo valor de doação</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Sistema processou a segunda chamada (price=5) sem rejeitar a operação; preço atualizado de R$ 3 para R$ 5. Ver seção 5.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-04.1</span></td>
+            <td class="td-description">Listagem dos warehouses de estoque disponíveis</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">5 warehouses retornados: Amostra, Campinas, EstoqueDocaTeste, Inglaterra, Singapura.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-04.2</span></td>
+            <td class="td-description">Tentativa de provisionar estoque com lista de warehouses vazia</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Sistema recusou a operação com HTTP 400.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-04.3</span></td>
+            <td class="td-description">Tentativa de provisionar estoque sem informar warehouses</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Sistema recusou a operação com HTTP 400.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-04.4</span></td>
+            <td class="td-description">Tentativa de provisionar estoque com warehouse em formato incorreto (texto)</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Sistema recusou o valor string em vez de array com HTTP 400.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-04.5</span></td>
+            <td class="td-description">Provisionamento de estoque nos warehouses disponíveis</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Estoque configurado em 867&nbsp;ms. appStatus transicionou para READY. price=5 (valor real, conforme TC-03.6).</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-04.6</span></td>
+            <td class="td-description">Tentativa de reprovisionar estoque já configurado</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Sistema recusou a segunda chamada com HTTP 409, mantendo appStatus=READY.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-04.7</span></td>
+            <td class="td-description">Verificação do estado final completo do sistema</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Todos os campos do AppState confirmados: appStatus=READY, inventorySet=true, 5 warehouses, provisioningStep=null. price=5 documentado.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-06.1</span></td>
+            <td class="td-description">Ativação do aplicativo no checkout pelo administrador</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">appStatus=ACTIVE confirmado via GET /getsettings. Operador habilitou o app antes dos testes do minicart.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-06.2</span></td>
+            <td class="td-description">Componente de doação renderiza no minicart com checkbox desmarcado</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">donationContainer presente no DOM; input[type=&ldquo;checkbox&rdquo;] com checked=false; zero erros de console relacionados a &ldquo;donation&rdquo;.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-06.3</span></td>
+            <td class="td-description">Marcar checkbox adiciona o produto de doação ao carrinho</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">SKU 115 (Apoie o Plantio de Árvores Phase-17) adicionado ao orderForm com quantity=1 após 1.500&nbsp;ms. Checkbox com checked=true.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-06.4</span></td>
+            <td class="td-description">Desmarcar checkbox remove o produto de doação do carrinho</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">SKU 115 ausente do orderForm após segundo clique no checkbox. Checkbox com checked=false.</td>
+          </tr>
+          <tr>
+            <td><span class="tc-badge">TC-06.5</span></td>
+            <td class="td-description">Carrinho vazio não causa erros no componente de doação</td>
+            <td><span class="status-badge status-badge--pass">✅ Aprovado</span></td>
+            <td class="td-notes">Zero erros JS de &ldquo;donation&rdquo; ou &ldquo;Cannot read properties of undefined&rdquo;. VTEX renderiza empty-state sem montar blocos filhos &mdash; comportamento esperado da plataforma.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── 4. Estado final do sistema ─────────────────── -->
+  <div class="section-card">
+    <div class="section-card__header">
+      <span class="section-card__emoji">🗂️</span>
+      <h2 class="section-card__title">4. Estado final do sistema</h2>
+    </div>
+    <div class="appstate-grid">
+      <div class="appstate-item appstate-item--ok">
+        <span class="appstate-item__key">Etapa atual</span>
+        <span class="appstate-item__value">ACTIVE ✅</span>
+      </div>
+      <div class="appstate-item appstate-item--ok">
+        <span class="appstate-item__key">Produto de doação</span>
+        <span class="appstate-item__value">ID 117</span>
+      </div>
+      <div class="appstate-item appstate-item--ok">
+        <span class="appstate-item__key">Item de venda (SKU)</span>
+        <span class="appstate-item__value">ID 115</span>
+      </div>
+      <div class="appstate-item appstate-item--ok">
+        <span class="appstate-item__key">Categoria</span>
+        <span class="appstate-item__value">ID 37</span>
+      </div>
+      <div class="appstate-item appstate-item--ok">
+        <span class="appstate-item__key">Marca</span>
+        <span class="appstate-item__value">ID 2000036</span>
+      </div>
+      <div class="appstate-item appstate-item--ok">
+        <span class="appstate-item__key">Imagem do SKU</span>
+        <span class="appstate-item__value">Configurada ✅</span>
+      </div>
+      <div class="appstate-item appstate-item--ok">
+        <span class="appstate-item__key">Estoque</span>
+        <span class="appstate-item__value">5 warehouses ✅</span>
+      </div>
+      <div class="appstate-item appstate-item--warning">
+        <span class="appstate-item__key">Preço</span>
+        <span class="appstate-item__value">R$ 5 ⚠️</span>
+      </div>
+      <div class="appstate-item appstate-item--ok">
+        <span class="appstate-item__key">Ativo no checkout</span>
+        <span class="appstate-item__value">ACTIVE ✅</span>
+      </div>
+    </div>
+    <p class="section-card__text">
+      O sistema concluiu todas as etapas de provisionamento e encontra-se no estado <strong>ACTIVE</strong>, com o componente de doação visível e funcional no minicart da loja.
+    </p>
+  </div>
+
+  <!-- ── 5. Achados relevantes ───────────────────────── -->
+  <div class="section-card">
+    <div class="section-card__header">
+      <span class="section-card__emoji">🐛</span>
+      <h2 class="section-card__title">5. Achados relevantes</h2>
+    </div>
+    <div class="alert-card">
+      <div class="alert-card__title">⚠️ Defeito identificado e corrigido — TC-05.1</div>
+      <p class="alert-card__text">
+        Durante o teste de reaproveitamento de cadastros existentes, o sistema retornou erro interno ao tentar localizar um produto e um SKU já cadastrados. A investigação revelou que os endereços de consulta usados internamente estavam incorretos — o sistema buscava os registros em rotas da API do catálogo que não correspondem à documentação oficial da plataforma VTEX.
+      </p>
+      <p class="alert-card__text">
+        <strong>Impacto do defeito:</strong> em qualquer reexecução do provisionamento de catálogo, a aplicação falharia com erro interno em vez de reconhecer os itens já existentes. Isso poderia também causar tentativas de criação de produtos duplicados na loja.
+      </p>
+    </div>
+    <div class="fix-card">
+      <div class="fix-card__title">✅ Correção aplicada</div>
+      <p class="fix-card__text">
+        Os endereços de consulta foram ajustados para as rotas corretas da API oficial do VTEX Catalog. Após a correção e republicação do aplicativo, o TC-17.2 foi reexecutado com sucesso, confirmando que o sistema agora reconhece corretamente os produtos já cadastrados.
+      </p>
+    </div>
+    <div class="alert-card" style="border-left-color:#9ba5b4; background:#f8f9fb;">
+      <div class="alert-card__title" style="color:#2d3748;">&#x1F4D0; Comportamento observado — TC-03.6: ausência de proteção contra reconfiguração</div>
+      <p class="alert-card__text" style="color:#4a5568;">
+        A API <code>configureProduct</code> aceita novas chamadas enquanto o status for <code>CATALOG_CREATED</code>, sem verificar se a configuração já foi concluída. Ao ser chamada pela segunda vez com <code>price=5</code>, o sistema reprocessou normalmente e atualizou o preço de R$&nbsp;3 para R$&nbsp;5.
+      </p>
+      <p class="alert-card__text" style="color:#4a5568;">
+        <strong>Análise:</strong> o comportamento pode ser intencional (permite ao administrador alterar o valor de doação antes de provisionar o estoque), mas não está documentado como funcionalidade explícita. Não classificado como defeito. O preço vigente no sistema é <strong>R$&nbsp;5</strong>.
+      </p>
+      <p class="alert-card__text" style="color:#4a5568;">
+        <strong>Recomendação:</strong> documentar se a reconfiguração antes do provisionamento de estoque é um caso de uso suportado e considerar log de auditoria para rastrear alterações de preço.
+      </p>
+    </div>
+  </div>
+
+  <!-- ── 6. Próximos passos ──────────────────────────── -->
+  <div class="section-card">
+    <div class="section-card__header">
+      <span class="section-card__emoji">🚀</span>
+      <h2 class="section-card__title">6. Próximos passos</h2>
+    </div>
+    <p class="section-card__text">
+      Todos os casos de teste previstos para o fluxo de provisionamento foram executados com sucesso. O sistema encontra-se no estado <strong>READY</strong>, com provisionamento completo.
+    </p>
+    <div class="table-wrap">
+      <table class="next-table">
+        <thead>
+          <tr>
+            <th>Fase</th>
+            <th>Status</th>
+            <th>Resultado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="phase-badge">FASE-01</span></td>
+            <td>Concluída</td>
+            <td>3 PASS / 0 FAIL</td>
+          </tr>
+          <tr>
+            <td><span class="phase-badge">FASE-02</span></td>
+            <td>Concluída</td>
+            <td>5 PASS / 0 FAIL</td>
+          </tr>
+          <tr>
+            <td><span class="phase-badge">FASE-03</span></td>
+            <td>Concluída</td>
+            <td>6 PASS / 0 FAIL</td>
+          </tr>
+          <tr>
+            <td><span class="phase-badge">FASE-04</span></td>
+            <td>Concluída</td>
+            <td>7 PASS / 0 FAIL</td>
+          </tr>
+          <tr>
+            <td><span class="phase-badge">FASE-05</span></td>
+            <td>Concluída</td>
+            <td>1 PASS / 0 FAIL / 1 SKIP</td>
+          </tr>
+          <tr>
+            <td><span class="phase-badge">FASE-06</span></td>
+            <td>Concluída</td>
+            <td>5 PASS / 0 FAIL</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="section-card__text">
+      Etapa pendente de avaliação em rodada futura: <strong>testes do dashboard de pedidos</strong> (FASE-07).
+    </p>
+  </div>
+
+  <!-- ── 7. Evidências visuais — FASE-06 ────────────── -->
+  <div class="section-card">
+    <div class="section-card__header">
+      <span class="section-card__emoji">📸</span>
+      <h2 class="section-card__title">7. Evidências visuais &mdash; FASE-06</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 20px;">
+      <figure style="margin:0; display:flex; flex-direction:column; gap:8px;">
+        <img src="FASE-06/TC-06.2/screenshot_before.png" alt="TC-06.2 — Checkbox desmarcado" style="width:100%; border-radius:12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border: 1px solid #e6f1e3;" />
+        <figcaption style="font-size:13px; color:#5f7463; font-weight:600; text-align:center;">TC-06.2 &mdash; Componente renderizado com checkbox desmarcado</figcaption>
+      </figure>
+      <figure style="margin:0; display:flex; flex-direction:column; gap:8px;">
+        <img src="FASE-06/TC-06.3/screenshot_after.png" alt="TC-06.3 — Checkbox marcado" style="width:100%; border-radius:12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border: 1px solid #e6f1e3;" />
+        <figcaption style="font-size:13px; color:#5f7463; font-weight:600; text-align:center;">TC-06.3 &mdash; Checkbox marcado; SKU 115 adicionado ao carrinho</figcaption>
+      </figure>
+      <figure style="margin:0; display:flex; flex-direction:column; gap:8px;">
+        <img src="FASE-06/TC-06.4/screenshot_after.png" alt="TC-06.4 — Checkbox desmarcado" style="width:100%; border-radius:12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border: 1px solid #e6f1e3;" />
+        <figcaption style="font-size:13px; color:#5f7463; font-weight:600; text-align:center;">TC-06.4 &mdash; Checkbox desmarcado; SKU 115 removido do carrinho</figcaption>
+      </figure>
+      <figure style="margin:0; display:flex; flex-direction:column; gap:8px;">
+        <img src="FASE-06/TC-06.5/screenshot_before.png" alt="TC-06.5 — Carrinho vazio" style="width:100%; border-radius:12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border: 1px solid #e6f1e3;" />
+        <figcaption style="font-size:13px; color:#5f7463; font-weight:600; text-align:center;">TC-06.5 &mdash; Carrinho vazio; empty-state sem erros de console</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="report-footer">
+    Relatório gerado em 14 de abril de 2026 &nbsp;·&nbsp; Aplicativo de Doação Agroforestree &nbsp;·&nbsp; refIdVersion 1
+  </div>
+
+</div>
+</body>
+</html>

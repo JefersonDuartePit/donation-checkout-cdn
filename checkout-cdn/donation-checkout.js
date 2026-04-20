@@ -29,7 +29,7 @@
 
     var label = document.createElement('label')
     label.htmlFor = 'donation-checkout-checkbox'
-    label.appendChild(document.createTextNode(' Adicionar doacao de arvore ao pedido'))
+    label.appendChild(document.createTextNode(' Apoie o plantio de árvores 🌱'))
 
     container.appendChild(checkbox)
     container.appendChild(label)
